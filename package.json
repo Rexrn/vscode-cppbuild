@@ -10,16 +10,85 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:cppBuild.openNewProjectWizard",
+		"onCommand:cppBuild.buildProject",
+		"onCommand:cppBuild.loadRootProject",
+		"onView:cppBuildProjectView"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "cppBuild.openNewProjectWizard",
+				"title": "New C++ project",
+				"icon": {
+					"light": "res/light/add-icon.svg",
+					"dark": "res/dark/add-icon.svg"
+				}
+			},
+			{
+				"command": "cppBuild.buildProject",
+				"title": "Build project",
+				"icon": {
+					"light": "res/light/build-icon.svg",
+					"dark": "res/dark/build-icon.svg"
+				}
+			},
+			{
+				"command": "cppBuild.loadRootProject",
+				"title": "Load C++ root project",
+				"icon": {
+					"light": "res/light/build-icon.svg",
+					"dark": "res/dark/build-icon.svg"
+				}
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "cpp-build",
+					"title": "CppBuild",
+					"icon": "res/logo.svg"
+				}
+			]
+		},
+		"views": {
+			"cpp-build": [
+				{
+					"id": "cppBuildProjectView",
+					"name": "Projects"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "cppBuildProjectView",
+				"contents": "[New project](command:cppBuild.openNewProjectWizard)\n[Load project](command:cppBuild.openNewProjectWizard)\n[New template](command:cppBuild.openNewProjectWizard)\n"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "cppBuild.openNewProjectWizard",
+					"when": "view == cppBuildProjectView",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "cppBuild.buildProject",
+					"when": "view == cppBuildProjectView",
+					"group": "inline"
+				}
+			],
+			"explorer/context": [
+				{
+					"command": "cppBuild.loadRootProject",
+					"when": "resourceFilename =~ /\\.build\\.json$/i",
+					"group": "CppBuild"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
